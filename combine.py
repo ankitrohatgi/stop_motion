@@ -2,11 +2,11 @@ import cv2
 import os
 import tqdm
 
-img_path = "blocks2/"
-out_file = "blocks2.mp4"
-img_end = 216
+img_path = "recordings/latest/"
+out_file = "recordings/videos/the_star_wars_movie.avi"
 img_start = 0
-fps = 3
+img_end = 409
+fps = 5
 
 def get_image_name(index):
     return os.path.join(img_path, "opencv_frame_{}.png".format(index))
@@ -17,7 +17,7 @@ img1 = cv2.imread(get_image_name(img_start))
 height,width,layers=img1.shape
 print(width,height)
 
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+fourcc = cv2.VideoWriter_fourcc(*'MJPG')
 video=cv2.VideoWriter(out_file,fourcc,fps,(width,height))
 
 for i in tqdm.tqdm(range(img_start, img_end)):

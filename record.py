@@ -1,4 +1,5 @@
 import cv2
+import os
 
 cam = cv2.VideoCapture(2)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
@@ -9,16 +10,16 @@ print(cam.get(cv2.CAP_PROP_FOCUS))
 cam.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0)
 cam.set(cv2.CAP_PROP_EXPOSURE, -6) 
 
-cv2.namedWindow("test")
+cv2.namedWindow("stop_motion: record")
 
-img_counter = 8
+img_counter = 0
 
 while True:
     ret, frame = cam.read()
     if not ret:
         print("failed to grab frame")
         break
-    cv2.imshow("test", frame)
+    cv2.imshow("stop_motion: record", frame)
 
     k = cv2.waitKey(1)
     if k%256 == 27:
@@ -28,7 +29,8 @@ while True:
     elif k%256 == 32:
         # SPACE pressed
         img_name = "opencv_frame_{}.png".format(img_counter)
-        cv2.imwrite(img_name, frame)
+        img_path = os.path.join('recordings/latest', img_name)
+        cv2.imwrite(img_path, frame)
         print("{} written!".format(img_name))
         img_counter += 1
 

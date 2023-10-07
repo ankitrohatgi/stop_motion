@@ -1,4 +1,5 @@
 import cv2
+import time
 
 cam = cv2.VideoCapture(2)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
@@ -11,7 +12,7 @@ cam.set(cv2.CAP_PROP_EXPOSURE, -6)
 
 cv2.namedWindow("test")
 
-img_counter = 8
+img_counter = 0
 
 while True:
     ret, frame = cam.read()
@@ -27,7 +28,8 @@ while True:
         break
     elif k%256 == 32:
         # SPACE pressed
-        img_name = "opencv_frame_{}.png".format(img_counter)
+        epoch_ms = int(time.time()*1000.0)
+        img_name = "opencv_frame_{}.png".format(epoch_ms)
         cv2.imwrite(img_name, frame)
         print("{} written!".format(img_name))
         img_counter += 1

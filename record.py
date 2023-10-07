@@ -1,5 +1,6 @@
 import cv2
 import os
+import time
 
 cam = cv2.VideoCapture(2)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
@@ -28,7 +29,8 @@ while True:
         break
     elif k%256 == 32:
         # SPACE pressed
-        img_name = "opencv_frame_{}.png".format(img_counter)
+        epoch_ms = int(time.time()*1000.0)
+        img_name = "opencv_frame_{}.png".format(epoch_ms)
         img_path = os.path.join('recordings/latest', img_name)
         cv2.imwrite(img_path, frame)
         print("{} written!".format(img_name))

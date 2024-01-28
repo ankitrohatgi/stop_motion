@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget
 from PySide6.QtGui import QAction
 from stop_motion.video_player import VideoPlayer
 import yaml
+import time
 
 
 class MainWindow(QMainWindow):
@@ -11,6 +12,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Stop Motion")
         self._init_menubar()
         self._init_widgets()
+        self.last_capture_time = None
         self.statusBar().showMessage("Start taking pictures!")
 
     def _init_widgets(self):
@@ -41,9 +43,14 @@ class MainWindow(QMainWindow):
         self.video_player.stream_camera(config_data)
 
     def capture(self):
+        if self.last_capture_time is not None:
+            current_time_sec = time.time()
+            if (current_time_sec - self.last_capture_time < 0.5):
+                return
         self.video_player.capture()
         num_snaps = self.video_player.get_capture_count()
         self.statusBar().showMessage(f"Number of pictures: {num_snaps}")
+        self.last_capture_time = time.time()
 
     def clean_up(self):
         print("shutting down, bye!")

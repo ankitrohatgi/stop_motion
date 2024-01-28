@@ -7,5 +7,7 @@ def launch():
     window = MainWindow()
     window.show()
     app.aboutToQuit.connect(window.clean_up)
+    if len(sys.argv) > 1:
+        window.load_config(sys.argv[1])
     app.exec()
 

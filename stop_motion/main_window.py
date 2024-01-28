@@ -1,15 +1,13 @@
-from PySide6.QtWidgets import (QMainWindow, 
-                               QPushButton, 
-                               QVBoxLayout, 
-                               QWidget)
+from PySide6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget
 from PySide6.QtGui import QAction
 from stop_motion.video_player import VideoPlayer
 import yaml
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setMinimumSize(600,400)
+        self.setMinimumSize(600, 400)
         self.setWindowTitle("Stop Motion")
         self._init_menubar()
         self._init_widgets()
@@ -38,7 +36,7 @@ class MainWindow(QMainWindow):
 
     def load_config(self, file):
         config_data = None
-        with open(file, 'r') as f:
+        with open(file, "r") as f:
             config_data = yaml.load(f, Loader=yaml.SafeLoader)
         self.video_player.stream_camera(config_data)
 
@@ -50,4 +48,3 @@ class MainWindow(QMainWindow):
     def clean_up(self):
         print("shutting down, bye!")
         self.video_player.stop_streaming()
-

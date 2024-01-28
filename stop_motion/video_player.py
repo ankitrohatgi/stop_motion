@@ -8,9 +8,10 @@ import os
 
 def get_qimage_from_cv(img):
     height, width, channel = img.shape
-    bytesPerLine= 3 * width
+    bytesPerLine = 3 * width
     qimg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
     return qimg
+
 
 class StreamingVideoThread(QThread):
     updateFrame = Signal(QImage, cv.Mat)
@@ -59,7 +60,7 @@ class VideoPlayer(QLabel):
     def resizeEvent(self, event: QResizeEvent) -> None:
         super().resizeEvent(event)
         self.setPixmap(self.original_pixmap)
-    
+
     def sizeHint(self) -> QSize:
         if self.scaled_size != None:
             return self.scaled_size
@@ -86,7 +87,9 @@ class VideoPlayer(QLabel):
             if "width" in camera_config:
                 self.video_capture.set(cv.CAP_PROP_FRAME_WIDTH, camera_config["width"])
             if "height" in camera_config:
-                self.video_capture.set(cv.CAP_PROP_FRAME_HEIGHT, camera_config["height"])
+                self.video_capture.set(
+                    cv.CAP_PROP_FRAME_HEIGHT, camera_config["height"]
+                )
             self.streaming_thread = StreamingVideoThread(self)
             self.streaming_thread.updateFrame.connect(self._update_image)
             self.streaming_thread.start()
@@ -108,12 +111,11 @@ class VideoPlayer(QLabel):
         out_dir = self.config["recording"]["path"]
         if not os.path.isdir(out_dir):
             os.makedirs(out_dir)
-        epoch_ms = int(time.time()*1000.0)
-        img_name =  "frame_{}.png".format(epoch_ms)
+        epoch_ms = int(time.time() * 1000.0)
+        img_name = "frame_{}.png".format(epoch_ms)
         img_path = os.path.join(out_dir, img_name)
         cv.imwrite(img_path, self.latest_cvimage)
         self.num_captured_frames += 1
 
     def get_capture_count(self):
         return self.num_captured_frames
-

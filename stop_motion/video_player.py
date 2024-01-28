@@ -37,6 +37,9 @@ class VideoPlayer(QLabel):
     def stream_camera(self, camera_config):
         pass
 
+    def stop_streaming(self):
+        pass
+
     def capture(self):
         pass
 

@@ -1,0 +1,9 @@
+camera:
+  device: 0     # OpenCV port/device
+  fourcc: MJPG  # some cameras need this, most don't
+  fps: 30       
+  width: 1280
+  height: 720
+data:
+  output_path: /home/arohatgi/recordings/
+
